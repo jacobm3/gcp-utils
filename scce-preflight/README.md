@@ -12,7 +12,7 @@ Clone this repo.
 
 ```
 git clone https://github.com/jacobm3/gcp-utils.git
-cd gcp-utils
+cd gcp-utils/scce-preflight
 ```
 
 Run each of the numbered scripts.  Example:
