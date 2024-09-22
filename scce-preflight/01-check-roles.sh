@@ -67,9 +67,9 @@ for role in "${required_roles[@]}"; do
   role_check=$(echo "$IAM_POLICY" | jq --arg role "$role" --arg user "user:$CURRENT_USER" '.bindings[] | select(.role == $role) | select(.members[] | contains($user))')
 
   if [[ -n "$role_check" ]]; then
-    echo -e "${GREEN}$role: PASS${NC}"
+    echo -e "$role: ${GREEN}PASS${NC}"
   else
-    echo -e "${RED}$role: FAIL${NC}"
+    echo -e "$role: ${RED}FAIL${NC}"
     any_fail=1
   fi
 done
