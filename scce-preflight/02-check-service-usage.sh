@@ -45,7 +45,7 @@ policy_check=$(gcloud org-policies describe "serviceuser.services" --organizatio
 
 # Handle the case where no org policy exists or an error occurs
 if [[ $? -ne 0 || -z "$policy_check" ]]; then
-  echo -e "${GREEN}PASS${NC}: Org policies are not enabled, meaning services aren't restricted."
+  echo -e "Org policies are not enabled, meaning services aren't restricted. ${GREEN}PASS${NC}"
   exit 0
 fi
 
@@ -62,9 +62,11 @@ else
   all_pass=1
   for service in "${required_services[@]}"; do
     if [[ "$services_restricted" == *"$service"* ]]; then
-      echo -e "${GREEN}PASS${NC}: $service is allowed."
+      #echo -e "${GREEN}PASS${NC}: $service is allowed."
+      echo -e "$service: is allowed. ${GREEN}PASS${NC}"
     else
-      echo -e "${RED}FAIL${NC}: $service is restricted."
+      #echo -e "${RED}FAIL${NC}: $service is restricted."
+      echo -e "$service: is not allowed. ${RED}FAIL${NC}"
       all_pass=0
     fi
   done
