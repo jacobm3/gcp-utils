@@ -7,6 +7,8 @@
 # Intended to run from your cloud shell. Will require alternate authn to run 
 # from somewhere else.
 #
+# https://github.com/jacobm3/gcp-utils/tree/main/scce-preflight
+#
 
 # Set colors for output
 green='\033[0;32m'
