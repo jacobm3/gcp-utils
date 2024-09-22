@@ -15,6 +15,16 @@ git clone https://github.com/jacobm3/gcp-utils.git
 cd gcp-utils/scce-preflight
 ```
 
-Run each of the numbered scripts.  Example:
+Run each of the numbered scripts.  Click "Authorize" if the GCP console sends an Oauth authorization request for the gcloud commands.
+
+```
+./01-check-roles.sh
+
+./02-check-service-usage.sh
+
+./03-check-logs.sh
+```
+
+Example output:
 
 ![screenshot](img/ss.png)
