@@ -2,8 +2,12 @@
 #
 # Checks that the current user has the GCP IAM roles necessary to deploy SCCE.
 #
-# Intended to run from your cloud shell. Will require alternate authn to run 
+# Intended to run from your cloud shell. Will require alternate authn to run
 # from somewhere else.
+#
+# Please provide the organization ID as the first argument or set the ORG_ID 
+# environment variable. You may need to run it a second time if you 
+# get a gcloud login error the first time; not sure why.
 #
 # https://github.com/jacobm3/gcp-utils/tree/main/scce-preflight
 #
@@ -39,15 +43,27 @@ if [[ -z "$PROJECT_ID" ]]; then
   exit 1
 fi
 
-# Get the organization ID by listing all organizations
-ORG_ID=$(gcloud organizations list --format="value(ID)" | head -n 1)
-
-if [[ -z "$ORG_ID" ]]; then
-  echo "Unable to determine organization ID. Make sure you're associated with an organization."
+# Get the organization ID
+if [[ -n "$1" ]]; then
+  ORG_ID="$1"
+elif [[ -n "$ORG_ID" ]]; then
+  # ORG_ID is already defined in the environment
+  :
+else
+  echo "Error: Please provide the organization ID as the first argument or set the ORG_ID environment variable."
+  echo "Usage: $0 <ORG_ID>"
   exit 1
 fi
 
-echo "Organization ID: $ORG_ID"
+
+# ensure we have an active authenticated session first
+echo "Checking gcloud auth session:"
+if ! gcloud auth list 2>/dev/null; then
+    echo "Error: Please log in to your Google Cloud account using 'gcloud auth login'"
+    exit 1
+fi
+echo
+
 
 # Get IAM policy for the organization
 echo "Fetching IAM policy for organization..."
@@ -82,4 +98,3 @@ if [[ "$any_fail" -eq 1 ]]; then
 else
   exit 0
 fi
-
