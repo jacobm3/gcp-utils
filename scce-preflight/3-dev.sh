@@ -16,6 +16,19 @@ red='\033[0;31m'
 yellow='\033[0;33m'
 no_color='\033[0m'
 
+check_log_sink() {
+  local project_id=$1
+  local sink_name=$2
+  local filter_expression=$3
+  local writer_identity=$4
+
+  if gcloud logging sinks list --quiet --project="$project_id" '--filter=destination:"cloud-logging://gcplogs.googleapis.com/projects/*/locations/*/buckets/*" AND writerIdentity:"'"$writer_identity"'"' '--format=value(name)' | grep -q .; then
+    echo "DNS log sink exists in project $project_id"
+  else
+    echo "DNS log sink does NOT exist in project $project_id"
+  fi
+}
+
 # Function to check if a log sink exists for a specific service
 check_log_sink() {
   service=$1
