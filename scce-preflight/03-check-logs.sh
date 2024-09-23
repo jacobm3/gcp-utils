@@ -30,6 +30,28 @@ check_log_sink() {
   fi
 }
 
+
+# Get the organization ID
+if [[ -n "$1" ]]; then
+  ORG_ID="$1"
+elif [[ -n "$ORG_ID" ]]; then
+  # ORG_ID is already defined in the environment
+  :
+else
+  echo "Error: Please provide the organization ID as the first argument or set the ORG_ID environment variable."
+  echo "Usage: $0 <ORG_ID>"
+  exit 1
+fi
+
+# ensure we have an active authenticated session first
+echo "Checking gcloud auth session:"
+if ! gcloud auth list 2>/dev/null; then
+    echo "Error: Please log in to your Google Cloud account using 'gcloud auth login'"
+    exit 1
+fi
+echo
+
+
 # Check if DNS API is enabled and logging is enabled
 echo -n "Checking DNS API: "
 if gcloud services list --enabled | grep -q "dns.googleapis.com"; then
