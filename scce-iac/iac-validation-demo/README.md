@@ -25,3 +25,12 @@ https://developer.hashicorp.com/terraform/install
 1. Review commands in scc-report-cmd.sh
 1. Run scc-report-cmd.sh and review output
 
+You should get a list of findings like this:
+```
+[
+  "Firewall rule logging should be enabled so you can audit network access",
+  "In the bucket configuration access control should be uniform instead of fine grained",
+  "Bucket Policy Only should be Enabled",
+  "Logging should be Enabled for Cloud storage buckets"
+]
+```
